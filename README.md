@@ -130,7 +130,11 @@ repeat | int / "indefinite" | Repeat count of the object or repeat the animation
 ```
 ### Install aframe-react
 ```
-npm install aframe-react
+npm install --save-dev aframe-react
+```
+Also install aframe-particle-system-component and aframe-environment-component
+```
+npm install --save-dev aframe-particle-system-component aframe-environment-component
 ```
 ### Include it in app.js header
 ```javascript
