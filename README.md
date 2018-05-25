@@ -1,5 +1,5 @@
 # arJS with a-frame Guide
-
+## Basic HTML / JS
 ## Including the Libraries
 
 ```html
@@ -7,7 +7,7 @@
 <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.0/aframe/build/aframe-ar.js"></script>
 ```
 
-## Ten lines code example
+## Ten lines code example provide by [Alexandra Etienne](https://medium.com/arjs/augmented-reality-in-10-lines-of-html-4e193ea9fdbf)
 
 ```html
 <!doctype HTML>
@@ -43,7 +43,7 @@ sourceType | webcam | Select the type of the scene
 
 ## Including the Marker example
 
-### Build-in 'hiro'/'kanji' Marker
+### Build-in 'hiro' / 'kanji' Marker
 
 ```html
 <a-marker-camera preset='hiro'>
@@ -110,6 +110,7 @@ sourceType | webcam | Select the type of the scene
 </a-gltf-model>
 ```
 ### Basic Attribute
+
 Attribute | Option | Usage
 --------- | ------ | -------------
 attribute | Position / rotation / visible / intensity | How to animate the model
@@ -120,3 +121,34 @@ dur | int | Duration in (milliseconds) of the animation
 repeat | int / "indefinite" | Repeat count of the object or repeat the animation indefinity
 
 [Attributes](https://aframe.io/docs/0.8.0/core/animations.html)
+
+## Webpack (Base on React Building) 
+### Include the Libraries in the entry point (i.e. index.html)
+```html
+<script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+<script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.0/aframe/build/aframe-ar.js"></script>
+```
+### Install aframe-react
+```
+npm install aframe-react
+```
+### Include it in app.js header
+```javascript
+import { Scene, Entity } from 'aframe-react';
+```
+## Render the aframe scene, entity and model or asset or marker
+The symbol is same as html basically
+```html
+<Scene artoolkit={{ debugUIEnabled: false, sourceType: 'webcam', trackingMethod: 'best' }}>
+  <a-assets>
+    <a-asset-item id="model" src="https://raw.githubusercontent.com/kalmykov/fr24-3d-models/master/models/b748.glb" crossOrigin="anonymous">
+    </a-asset-item>
+  </a-assets>
+  <a-gltf-model scale="1 1 1" src="#model"></a-gltf-model>
+  <a-marker-camera preset='hiro'>
+    <a-box position='0 0.5 0' material='color: black;' event-set__click="material.color: red; scale: 2 2 2"></a-box>
+    <a-gltf-model scale="1 1 1" src="#model"></a-gltf-model>
+  </a-marker-camera>
+  <Entity camera></Entity>
+</Scene>
+```
