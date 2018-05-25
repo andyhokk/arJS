@@ -25,6 +25,21 @@
 </html>
 ```
 
+## A-scene setting
+A-scene allow user select diffence AR backend such as arjs or tengo
+### For AR.JS backend
+```html
+<a-scene embedded stats arjs='trackingMethod: best; debugUIEnabled: false; sourceType: webcam'>
+  ...
+</a-scene>
+```
+Attribute | Option | Usage
+--------- | ------ | -------------
+stats | - | Show the performance of the current scene
+trackingMethod | best | -
+debugUIEnabled | Boolean | Show the debug tool on the scene
+sourceType | webcam | Select the type of the scene
+
 ## Including the Marker example
 
 ### Build-in 'hiro'/'kanji' Marker
@@ -73,3 +88,34 @@
 <a-text value="Hello, World!"></a-text>
 ```
 [Attributes](https://aframe.io/docs/0.8.0/primitives/a-text.html#attributes)
+### Include glb/gltf model
+#### Include as assets
+```html
+<a-assets>
+  <a-asset-item id="model" src="https://raw.githubusercontent.com/kalmykov/fr24-3d-models/master/models/b748.glb" crossOrigin="anonymous">
+  </a-asset-item>
+</a-assets>
+<a-gltf-model scale="1 1 1" src="#model"></a-gltf-model>
+```
+#### Include inline
+```html
+<a-gltf-model src="https://raw.githubusercontent.com/kalmykov/fr24-3d-models/master/models/b748.glb"></a-gltf-model>
+```
+
+## Animating the 3D model
+```html
+<a-gltf-model scale=".05 .05 .05" src="#model">
+  <a-animation attribute="position" from="0 0 10" to="0 0 -10" direction="normal" dur="3000" repeat="indefinite"></a-animation>
+</a-gltf-model>
+```
+### Basic Attribute
+Attribute | Option | Usage
+--------- | ------ | -------------
+attribute | Position / rotation / visible / intensity | How to animate the model
+from | [float float float] | Inital position of the 3D object
+to | [float float float] | Final position of the 3D object
+direction | "alternate", "alternateReverse", "normal", "reverse" | How the 3D object move
+dur | int | Duration in (milliseconds) of the animation
+repeat | int / "indefinite" | Repeat count of the object or repeat the animation indefinity
+
+[Attributes](https://aframe.io/docs/0.8.0/core/animations.html)
