@@ -123,7 +123,7 @@ repeat | int / "indefinite" | Repeat count of the object or repeat the animation
 
 [Attributes](https://aframe.io/docs/0.8.0/core/animations.html)
 
-## Cursor (Can actviate achieve at VR mode only)
+## Cursor (Can actviate at VR mode only)
 Can shown the cursor on the center of the screen, so that user can use "aframe-event-set-component" to click or trigger the object.
 ```html
 <a-cursor fuse="true" color="yellow"></a-cursor>
