@@ -132,7 +132,7 @@ Can shown the cursor on the center of the screen, so that user can use "aframe-e
 
 Attribute | Option | Usage
 --------- | ------ | -------------
-color | Name of the Color / Hex color code| Color of the cursor
+color | Name of the Color (e.g. 'yellow') / Hex color code| Color of the cursor
 fuse | Boolean | How to trigger the object
 
 [Attributes](https://aframe.io/docs/0.8.0/primitives/a-cursor.htm)
