@@ -91,7 +91,7 @@ sourceType | webcam | Select the type of the scene
 [Attributes](https://aframe.io/docs/0.8.0/primitives/a-text.html#attributes)
 ### Include glb/gltf model
 #### Include as assets
-The example of including the Boeing 747-800 3D aircraft model with .glb extension which provide by Flightradar24 3D models. There are different aircraft model with glb or gltf extension as well.
+The example of including the Boeing 747-800 3D aircraft model with .glb extension which provide by [Flightradar24 3D models](https://github.com/kalmykov/fr24-3d-models). There are different aircraft model with glb or gltf extension as well.
 ```html
 <a-assets>
   <a-asset-item id="model" src="https://raw.githubusercontent.com/kalmykov/fr24-3d-models/master/models/b748.glb" crossOrigin="anonymous">
