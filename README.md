@@ -114,7 +114,7 @@ The example of including the Boeing 747-800 3D aircraft model with .glb extensio
 
 Attribute | Option | Usage
 --------- | ------ | -------------
-attribute | Position / rotation / visible / intensity | How to animate the model
+attribute | 'Position' / 'rotation' / 'visible' / 'intensity' | How to animate the model
 from | [float float float] | Inital position of the 3D object
 to | [float float float] | Final position of the 3D object
 direction | "alternate", "alternateReverse", "normal", "reverse" | How the 3D object move
@@ -122,6 +122,20 @@ dur | int | Duration in (milliseconds) of the animation
 repeat | int / "indefinite" | Repeat count of the object or repeat the animation indefinity
 
 [Attributes](https://aframe.io/docs/0.8.0/core/animations.html)
+
+## Cursor (Can actviate achieve at VR mode only)
+Can shown the cursor on the center of the screen, so that user can use "aframe-event-set-component" to click or trigger the object.
+```html
+<a-cursor fuse="true" color="yellow"></a-cursor>
+```
+### Basic Attribute
+
+Attribute | Option | Usage
+--------- | ------ | -------------
+color | Name of the Color / Hex color code| Color of the cursor
+fuse | Boolean | How to trigger the object
+
+[Attributes](https://aframe.io/docs/0.8.0/primitives/a-cursor.htm)
 
 ## Webpack (Base on React Building) 
 ### Include the Libraries in the entry point (i.e. index.html)
