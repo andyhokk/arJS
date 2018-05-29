@@ -1,4 +1,11 @@
 # arToolKit JR Guite
+## Inital the library in .html
+```html
+<script async src="artoolkit.min.js"></script>
+<script async src="three.min.js"></script>
+<script async src="artoolkit.three.js"></script>
+```
+
 ## Creacte Object
 ### Shpere
 ```javascript
