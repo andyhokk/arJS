@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Hello Webpack</title>
+  <meta meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .portrait canvas {
+      transform-origin: 0 0;
+      transform: rotate(-90deg) translateX(-100%);
+    }
+
+    .desktop canvas {
+      transform: scale(-1, 1);
+    }
+  </style>
+</head>
+
+<body>
+  hi, testing
+    <script async src="artoolkit.min.js"></script>
+    <script async src="three.min.js"></script>
+    <script async src="artoolkit.three.js"></script>
+    <script async src="bundle.js"></script>
+</body>
+
+</html>
+<!--
+<!doctype HTML>
+<html>
+
+<head>
+  <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.5.0/aframe/examples/vendor/aframe/build/aframe.min.js"></script>
+  <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.5.0/aframe/build/aframe-ar.js"></script>
+  <script src="https://rawgit.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+</head>
+
+<body style='margin : 0px; overflow: hidden;'>
+  <a-scene embedded stats arjs='trackingMethod: best;'>
+    <a-assets>
+      <a-asset-item id="model" src="https://raw.githubusercontent.com/kalmykov/fr24-3d-models/master/models/b748.glb" crossOrigin="anonymous"></a-asset-item>
+    </a-assets>
+    <a-gltf-model scale=".05 .05 .05" src="#model">
+      <a-animation attribute="position" from="0 0 10" to="0 0 -10" direction="normal" dur="3000" repeat="indefinite"></a-animation>
+    </a-gltf-model>
+    <a-marker-camera preset='hiro'></a-marker-camera>
+    <a-camera-static/>
+  </a-scene>
+</body>
+
+</html>
+-->
