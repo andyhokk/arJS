@@ -37,3 +37,13 @@ arController.loadMarker('Data/patt.hiro', function(markerId) {
   arScene.scene.add(markerRoot);
   });
 ```
+
+## Under findObjectUnderEvent class
+### For single object, use intersectObject(objects)
+```javascript
+var intersects = raycaster.intersectObject(objects);
+```
+### For mult. object, use intersectObjects(objects)
+```javascript
+var intersects = raycaster.intersectObjects(objects.children, true);
+```
