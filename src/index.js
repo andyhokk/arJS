@@ -52,7 +52,71 @@ var findObjectUnderEvent = function (ev, camera, objects) {
 
 	/* For Multi object please use intersectObjects(objects)*/
 
+	//var intersects = raycaster.intersectObjects(objects.children, true);
 	var intersects = raycaster.intersectObject(objects);
+	if (intersects.length > 0) {
+		//var obj = intersects[0].object
+		var obj = intersects
+		return obj;
+	}
+};
+
+var findObjectUnderEvent2 = function (ev, camera, objects) {
+
+	var style = getComputedStyle(ev.target);
+	var elementTransform = style.getPropertyValue('transform');
+	var elementTransformOrigin = style.getPropertyValue('transform-origin');
+
+	var xyz = elementTransformOrigin.replace(/px/g, '').split(" ");
+	xyz[0] = parseFloat(xyz[0]);
+	xyz[1] = parseFloat(xyz[1]);
+	xyz[2] = parseFloat(xyz[2] || 0);
+
+	var mat = new THREE.Matrix4();
+	mat.identity();
+	if (/^matrix\(/.test(elementTransform)) {
+		var elems = elementTransform.replace(/^matrix\(|\)$/g, '').split(' ');
+		mat.elements[0] = parseFloat(elems[0]);
+		mat.elements[1] = parseFloat(elems[1]);
+		mat.elements[4] = parseFloat(elems[2]);
+		mat.elements[5] = parseFloat(elems[3]);
+		mat.elements[12] = parseFloat(elems[4]);
+		mat.elements[13] = parseFloat(elems[5]);
+	} else if (/^matrix3d\(/i.test(elementTransform)) {
+		var elems = elementTransform.replace(/^matrix3d\(|\)$/ig, '').split(' ');
+		for (var i = 0; i < 16; i++) {
+			mat.elements[i] = parseFloat(elems[i]);
+		}
+	}
+
+	var mat2 = new THREE.Matrix4();
+	mat2.makeTranslation(xyz[0], xyz[1], xyz[2]);
+	mat2.multiply(mat);
+	mat.makeTranslation(-xyz[0], -xyz[1], -xyz[2]);
+	mat2.multiply(mat);
+
+	var vec = new THREE.Vector3(ev.layerX, ev.layerY, 0);
+	vec.applyMatrix4(mat2);
+
+	var width = parseFloat(style.getPropertyValue('width'));
+	var height = parseFloat(style.getPropertyValue('height'));
+
+	var mouse3D = new THREE.Vector3(
+		(vec.x / width) * 2 - 1,
+		-(vec.y / height) * 2 + 1,
+		0.5
+	);
+	mouse3D.unproject(camera);
+	mouse3D.sub(camera.position);
+	mouse3D.normalize();
+
+	console.log(objects);
+	var raycaster = new THREE.Raycaster(camera.position, mouse3D);
+
+	/* For Multi object please use intersectObjects(objects)*/
+
+	var intersects = raycaster.intersectObjects(objects.children, true);
+	//var intersects = raycaster.intersectObject(objects);
 	if (intersects.length > 0) {
 		//var obj = intersects[0].object
 		var obj = intersects
@@ -198,7 +262,7 @@ var createPlane = function (text, x, y, z, width, height) {
 			mesh.position.z = z - 200;
 			if (x >= 0) {
 				mesh.position.x = -x - 100;
-			}else{
+			} else {
 				mesh.position.x = -x + 500;
 			}
 			plane.add(mesh);
@@ -208,6 +272,26 @@ var createPlane = function (text, x, y, z, width, height) {
 	plane.scale.set(0.0019, 0.0019, 0.0019);
 
 	return plane;
+}
+
+var createDuck = function () {
+	var duck = new THREE.Object3D();
+
+	// model
+	var loader = new THREE.GLTF2Loader();
+	/*THREE.DRACOLoader.setDecoderPath('libs');
+	loader.setDRACOLoader(new THREE.DRACOLoader());*/
+	loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/Duck/glTF-Embedded/Duck.gltf', function (gltf) {
+		/*gltf.scene.traverse(function (child) {
+			if (child.isMesh) {
+				child.material.envMap = envMap;
+			}
+		});*/
+		var duck2 = gltf.scene;
+		duck2.rotation.set(-Math.PI / 2, -Math.PI / 2000, Math.PI);
+		duck.add(gltf.asset);
+	});
+	return duck;
 }
 
 /*function getStream() {
@@ -274,9 +358,11 @@ function createAR(arScene, arController, arCameraParam) {
 	var box = createBox();
 	var sphere = createShpere();
 	var sphere2 = createShpere();
-	var plane = createPlane("I'm a sphere", 1, 1, 1000, 750, 300);
+	//var plane = createPlane("I'm a sphere", 1, 1, 1000, 750, 300);
 	var box = createBox();
 	var plane2 = createPlane("I'm a box", -600, 1, 1000, 750, 300);
+	var duck = createDuck();
+	//var aeroplane = createAeroplane();
 	plane2.visible = false;
 
 	sphere2.position.z = 3;
@@ -295,16 +381,56 @@ function createAR(arScene, arController, arCameraParam) {
 			//sphere2.position.z += 0.1;
 			plane2.visible = !plane2.visible;
 		}
+		if (findObjectUnderEvent2(ev, arScene.camera, duck)) {
+			//box.box.open = !box.box.open;
+			//ev.preventDefault();
+			//rotationTarget += 1;
+			//sphere2.position.z += 0.1;
+			//plane2.visible = !plane2.visible;
+			window.open("https://www.google.com", "_self");
+			url = "https://www.google.com";
+			console.log('user come from: ' + url)
+		}
 	}, false);
 
 	var markerRoot = arController.createThreeBarcodeMarker(5);
 	//markerRoot.add(box.box);
-	markerRoot.add(sphere);
+	//markerRoot.add(sphere);
 	markerRoot.add(box);
 	//markerRoot.add(sphere2);
-	markerRoot.add(plane);
+	//markerRoot.add(plane);
 	markerRoot.add(plane2);
+	markerRoot.add(duck);
+
 	arScene.scene.add(markerRoot);
+
+	//markerRoot.add(aeroplane);
+
+	//arScene.scene.add(aeroplane);
+
+	//scene = new THREE.Scene();
+
+	//var duck = new THREE.Scene();
+	var duck = new THREE.Object3D();
+
+	// model
+	var loader = new THREE.GLTF2Loader();
+	/*THREE.DRACOLoader.setDecoderPath('libs');
+	loader.setDRACOLoader(new THREE.DRACOLoader());*/
+	loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/Duck/glTF-Embedded/Duck.gltf', function (gltf) {
+		/*gltf.scene.traverse(function (child) {
+			if (child.isMesh) {
+				child.material.envMap = envMap;
+			}
+		});*/
+		var duck2 = gltf.scene;
+		duck2.rotation.set(-Math.PI / 2, -Math.PI / 2000, Math.PI);
+		duck.add(duck2);
+		markerRoot.add(duck);
+		arScene.scene.add(markerRoot);
+	});
+
+	//arScene.scene.add(markerRoot);
 
 	var rotationV = 0;
 	var rotationTarget = 0;
