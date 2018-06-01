@@ -316,8 +316,10 @@ var createDuck = function () {
 
 function cameraSuccess(videoParams) {
 	ARController.getUserMediaThreeScene({
-		maxARVideoSize: 640,
-		cameraParam: 'Data/camera_para.dat',
+		//maxARVideoSize: 640,
+		width: { min: 1024, ideal: 1280, max: 1920 },
+        height: { min: 576, ideal: 720, max: 1080 },
+		cameraParam: 'Data/camera_para-iPhone 6 Plus rear 1280x720 1.0m.dat',
 		deviceId: videoParams.deviceId,
 		onSuccess: createAR
 	})
@@ -338,13 +340,19 @@ function createAR(arScene, arController, arCameraParam) {
 		if (/Android|mobile|iPad|iPhone/i.test(navigator.userAgent)) {
 			renderer.setSize(window.innerWidth, (window.innerWidth / arController.videoWidth) * arController.videoHeight);
 		} else {
-			renderer.setSize(arController.videoWidth, arController.videoHeight);
+
+			var aspect = window.innerWidth / window.innerHeight;
+			/*camera.updateProjectionMatrix();
+
+			renderer.setSize(window.innerWidth, window.innerHeight);*/
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			//renderer.setSize(arController.videoWidth, arController.videoHeight);
+			//renderer.setSize(window.innerWidth, (window.innerWidth / arController.videoWidth) * arController.videoHeight);
 			document.body.className += ' desktop';
 		}
 	}
 
 	document.body.insertBefore(renderer.domElement, document.body.firstChild);
-
 
 	// Create a couple of lights for our AR scene.
 	var light = new THREE.PointLight(0xffffff);
@@ -387,11 +395,21 @@ function createAR(arScene, arController, arCameraParam) {
 			//rotationTarget += 1;
 			//sphere2.position.z += 0.1;
 			//plane2.visible = !plane2.visible;
-			window.open("https://www.google.com", "_self");
-			url = "https://www.google.com";
-			console.log('user come from: ' + url)
+			on();
+			//window.open("https://www.google.com", "_self");
 		}
 	}, false);
+
+	var overlay = document.getElementById('overlay');
+	overlay.onclick = function () {
+		document.getElementById("overlay").style.display = "none";
+		//document.getElementById("overlay").classList.add("active");
+	}
+
+	/*window.addEventListener('resize', function () {
+		renderer.setSize(window.innerWidth, window.innerHeight);
+	});*/
+
 
 	var markerRoot = arController.createThreeBarcodeMarker(5);
 	//markerRoot.add(box.box);
@@ -468,6 +486,16 @@ window.ARThreeOnLoad = function () {
 		.catch(function (err) {
 			alert(err.name + ": " + err.message);
 		})
+}
+
+function on() {
+	//document.querySelector('.overlay').classList.toggle('active');
+	document.getElementById("overlay").style.display = "block";
+	//document.getElementById('.transform').toggleClass('.transform-active');
+}
+
+function off() {
+	document.getElementById("overlay").style.display = "none";
 }
 
 /*window.ARThreeOnLoad = function () {

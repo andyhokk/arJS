@@ -2,12 +2,12 @@
 <html>
 
 <head>
-  <title>Hello Webpack</title>
+  <title>Interact with the AR world</title>
   <meta meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
   <style>
     html,
     body {
-      margin: 0;
+      margin: auto;
       padding: 0;
       width: 100%;
       text-align: center;
@@ -22,20 +22,110 @@
     .desktop canvas {
       transform: scale(-1, 1);
     }
-  </style>
-</head>
 
-<body>
-  <h1>Interact with the AR world</h1>
+    .content {
+      width: 100%;
+      margin: auto;
+    }
+
+    #overlay {
+      position: fixed;
+      /* Sit on top of the page content */
+      display: none;
+      /* Hidden by default */
+      width: 20%;
+      /* Full width (cover the whole page) */
+      height: 100%;
+      /* Full height (cover the whole page) */
+      top: 0;
+      /*left: 0;*/
+      right: 0;
+      bottom: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      /* Black background with opacity */
+      z-index: 2;
+      /* Specify a stack order in case you're using a different order for other elements */
+      cursor: pointer;
+      /* Add a pointer on hover */
+      /*text-align: center;
+      align-items: center;*/
+      padding: 50px 0;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      transition: opacity 1s linear;
+    }
+
+    #overlayAllTheTime {
+      position: absolute;
+      /* Sit on top of the page content */
+      display: none;
+      /* Hidden by default */
+      width: 100%;
+      /* Full width (cover the whole page) */
+      height: 40%;
+      /* Full height (cover the whole page) */
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      /* Black background with opacity */
+      z-index: 2;
+      /* Specify a stack order in case you're using a different order for other elements */
+      cursor: pointer;
+      /* Add a pointer on hover */
+    }
+
+    #text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      font-size: 50px;
+      color: white;
+      transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+    }
+  </style>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+    crossorigin="anonymous">
   <script defer src='//rawcdn.githack.com/artoolkit/jsartoolkit5/77733182a4c519b8e683cbf246a22920d94f3deb/build/artoolkit.min.js'></script>
   <script defer src='//rawcdn.githack.com/mrdoob/three.js/r84/build/three.min.js'></script>
   <script defer src='//rawcdn.githack.com/artoolkit/jsartoolkit5/77733182a4c519b8e683cbf246a22920d94f3deb/js/artoolkit.three.js'></script>
   <script defer src='//rawcdn.githack.com/mrdoob/three.js/288709543605a598a99e45a9c9bc1c388e0df76e/examples/js/loaders/GLTF2Loader.js'></script>
-  <!--<script src="bundle.js"></script>-->
-  <script src="index.js"></script>
-  <p><b>** This example can use on Android or Desktop with Chrome! **</b></p>
-  <p>Click the box to show the speech box!</p>
-  <p>Click the duck to go to Google.com!</p>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="content">
+    <div id="overlay">
+      <div align="right" style="margin-right: 10px">
+        <button type="button" class="btn btn-secondary" onclick="off()">X</button>
+      </div>
+      <div style="text-align: center;align-items: center;">
+        <h1 style="color:white;">Duck</h1>
+        <p style="color:white; margin: 10px; text-align: justify">Duck is the common name for a large number of species in the waterfowl family Anatidae, which also includes swans
+          and geese. Ducks are divided among several subfamilies in the family Anatidae; they do not represent a monophyletic
+          group (the group of all descendants of a single common ancestral species) but a form taxon, since swans and geese
+          are not considered ducks. Ducks are mostly aquatic birds, mostly smaller than the swans and geese, and may be found
+          in both fresh water and sea water.</p>
+        <iframe swidth="400" height="225" src="https://www.youtube.com/embed/0_DblE2DCfg"></iframe>
+      </div>
+    </div>
+    <div id="overlayAllTheTime" class="content">
+      <h1 style="color:white;">Interact with the AR world</h1>
+      <p style="color:white;">
+        <b>** This example can use on Android or Desktop with Chrome! **</b>
+      </p>
+      <p style="color:white;">Click the box to show the speech box!</p>
+      <p style="color:white;">Click the duck to show the detail of the duck</p>
+    </div>
+    <script src="bundle.js"></script>
+  </div>
 </body>
 
 </html>
