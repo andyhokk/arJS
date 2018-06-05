@@ -47,7 +47,6 @@ var findObjectUnderEvent = function (ev, camera, objects) {
 	mouse3D.sub(camera.position);
 	mouse3D.normalize();
 
-	console.log(objects);
 	var raycaster = new THREE.Raycaster(camera.position, mouse3D);
 
 	/* For Multi object please use intersectObjects(objects)*/
@@ -110,16 +109,16 @@ var findObjectUnderEvent2 = function (ev, camera, objects) {
 	mouse3D.sub(camera.position);
 	mouse3D.normalize();
 
-	console.log(objects);
+	//console.log(objects.children["0"].children["0"].children["0"]);
 	var raycaster = new THREE.Raycaster(camera.position, mouse3D);
 
 	/* For Multi object please use intersectObjects(objects)*/
+	var intersects = raycaster.intersectObject(objects, true);
 
-	var intersects = raycaster.intersectObjects(objects.children, true);
 	//var intersects = raycaster.intersectObject(objects);
 	if (intersects.length > 0) {
 		//var obj = intersects[0].object
-		var obj = intersects
+		var obj = intersects;
 		return obj;
 	}
 };
@@ -289,7 +288,7 @@ var createDuck = function () {
 		});*/
 		var duck2 = gltf.scene;
 		duck2.rotation.set(-Math.PI / 2, -Math.PI / 2000, Math.PI);
-		duck.add(gltf.asset);
+		//duck.add(gltf.asset);
 	});
 	return duck;
 }
@@ -318,7 +317,7 @@ function cameraSuccess(videoParams) {
 	ARController.getUserMediaThreeScene({
 		//maxARVideoSize: 640,
 		width: { min: 1024, ideal: 1280, max: 1920 },
-        height: { min: 576, ideal: 720, max: 1080 },
+		height: { min: 576, ideal: 720, max: 1080 },
 		cameraParam: 'Data/camera_para-iPhone 6 Plus rear 1280x720 1.0m.dat',
 		deviceId: videoParams.deviceId,
 		onSuccess: createAR
@@ -395,16 +394,17 @@ function createAR(arScene, arController, arCameraParam) {
 			//rotationTarget += 1;
 			//sphere2.position.z += 0.1;
 			//plane2.visible = !plane2.visible;
+			ev.preventDefault();
 			on();
 			//window.open("https://www.google.com", "_self");
 		}
 	}, false);
 
-	var overlay = document.getElementById('overlay');
+	/*var overlay = document.getElementById('overlay');
 	overlay.onclick = function () {
 		document.getElementById("overlay").style.display = "none";
 		//document.getElementById("overlay").classList.add("active");
-	}
+	}*/
 
 	/*window.addEventListener('resize', function () {
 		renderer.setSize(window.innerWidth, window.innerHeight);
@@ -444,9 +444,10 @@ function createAR(arScene, arController, arCameraParam) {
 		var duck2 = gltf.scene;
 		duck2.rotation.set(-Math.PI / 2, -Math.PI / 2000, Math.PI);
 		duck.add(duck2);
-		markerRoot.add(duck);
-		arScene.scene.add(markerRoot);
 	});
+
+	markerRoot.add(duck);
+	arScene.scene.add(markerRoot);
 
 	//arScene.scene.add(markerRoot);
 
@@ -490,13 +491,19 @@ window.ARThreeOnLoad = function () {
 
 function on() {
 	//document.querySelector('.overlay').classList.toggle('active');
-	document.getElementById("overlay").style.display = "block";
-	//document.getElementById("overlay").style.transition = 'opacity 1s';
+	// Animation opacity
+	document.getElementById("overlay").style.opacity = 1;
+	// Animation right
+	document.getElementById("overlay").style.right = 0;
+	document.getElementById("overlay").style.transition = 'opacity 1s, right 1s';
+	// Animation position
 	//document.getElementById('#overlay').toggleClass('show');
 }
 
 function off() {
-	document.getElementById("overlay").style.display = "none";
+	document.getElementById("overlay").style.opacity = 0;
+	document.getElementById("overlay").style.right = '-20%';
+	document.getElementById("overlay").style.transition = 'opacity 1s, right 1s';
 }
 
 /*window.ARThreeOnLoad = function () {
