@@ -491,7 +491,8 @@ window.ARThreeOnLoad = function () {
 function on() {
 	//document.querySelector('.overlay').classList.toggle('active');
 	document.getElementById("overlay").style.display = "block";
-	//document.getElementById('.transform').toggleClass('.transform-active');
+	//document.getElementById("overlay").style.transition = 'opacity 1s';
+	//document.getElementById('#overlay').toggleClass('show');
 }
 
 function off() {
