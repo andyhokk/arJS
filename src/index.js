@@ -62,7 +62,7 @@ var findObjectUnderEvent = function (ev, camera, objects) {
 
 var findObjectUnderEvent2 = function (ev, camera, objects) {
 
-	var style = getComputedStyle(ev.target);
+	/*var style = getComputedStyle(ev.target);
 	var elementTransform = style.getPropertyValue('transform');
 	var elementTransformOrigin = style.getPropertyValue('transform-origin');
 
@@ -110,15 +110,43 @@ var findObjectUnderEvent2 = function (ev, camera, objects) {
 	mouse3D.normalize();
 
 	//console.log(objects.children["0"].children["0"].children["0"]);
+	var raycaster = new THREE.Raycaster(camera.position, mouse3D);*/
+
+
+	var vec = new THREE.Vector3(ev.layerX, ev.layerY, 0);
+
+	var mouse3D = new THREE.Vector3();
+	var style = getComputedStyle(ev.target);
+	var width = parseFloat(style.getPropertyValue('width'));
+	var height = parseFloat(style.getPropertyValue('height'));
+
+	var mouse3D = new THREE.Vector3(
+		(vec.x / width) * 2 - 1,
+		-(vec.y / height) * 2 + 1,
+		0.5
+	);
+
+	ev.preventDefault();
+
+	mouse3D.unproject(camera);
+	mouse3D.sub(camera.position);
+	mouse3D.normalize();
+
 	var raycaster = new THREE.Raycaster(camera.position, mouse3D);
 
+	//projector.unprojectVector(mouse3D, camera);
+	//raycaster.setFromCamera(mouse3D, camera);
+
+	//var intersects = raycaster.intersectObjects(scene.children);
+
 	/* For Multi object please use intersectObjects(objects)*/
-	var intersects = raycaster.intersectObject(objects, true);
+	var intersects = raycaster.intersectObjects(objects.children, false);
 
 	//var intersects = raycaster.intersectObject(objects);
 	if (intersects.length > 0) {
 		//var obj = intersects[0].object
 		var obj = intersects;
+		console.log(objects);
 		return obj;
 	}
 };
@@ -395,7 +423,6 @@ function createAR(arScene, arController, arCameraParam) {
 			//sphere2.position.z += 0.1;
 			//plane2.visible = !plane2.visible;
 			console.log(duck);
-			ev.preventDefault();
 			on();
 			//window.open("https://www.google.com", "_self");
 		}

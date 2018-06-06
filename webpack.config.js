@@ -1,3 +1,4 @@
+/* Old Config
 const path = require('path')
 
 module.exports = {
@@ -10,4 +11,23 @@ module.exports = {
     disableHostCheck: true,
     // other options
 }
+}*/
+const path = require('path');
+module.exports = {
+  entry: "./es6/main.js",
+  output: {
+    filename: "bundle.js",
+    path: path.resolve(__dirname, 'dist')
+  },
+  module: {
+    rules: [
+      {
+        test: path.join(__dirname, 'es6'),
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015']
+        }
+      }
+    ]
+  }
 }
