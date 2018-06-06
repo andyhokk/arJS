@@ -439,8 +439,8 @@ function createAR(arScene, arController, arCameraParam) {
     var loader = new THREE.OBJLoader2();
 
     //var model_url = 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/Duck/glTF-Embedded/Duck.gltf';
-    //var model_url = './model/male02.obj';
-    var model_url = './model/all3KidneySamples.obj';
+    var model_url = './model/male02.obj';
+    //var model_url = './model/all3KidneySamples.obj';
 
 	/*THREE.DRACOLoader.setDecoderPath('libs');
 	loader.setDRACOLoader(new THREE.DRACOLoader());*/
