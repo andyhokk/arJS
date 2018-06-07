@@ -50,20 +50,19 @@ var intersects = raycaster.intersectObjects(objects.children, true);
 
 ### Custom Marker
 #### Image marker
-```html
-<a-marker preset='custom' type='pattern' url='your-marker.patt'>
-  <!-- the object or 3D model after recongzine the QR-Marker-->
-  <a-box position='0 0.5 0' material='color: black;'></a-box>
-</a-marker-camera>
+```javascript
+arController.loadMarker('Data/patt.hiro', function(markerId) {
+	var markerRoot = arController.createThreeMarker(markerId);
+	markerRoot.add(sphere);
+	arScene.scene.add(markerRoot);
+});
 ```
 [Online marker generate tool](https://jeromeetienne.github.io/AR.js/three.js/examples/marker-training/examples/generator.html)
 
 #### Barcode Marker
 ##### Edit the Scene Config before use the Barcode Marker
-```html
-<a-scene arjs='detectionMode: mono_and_matrix; matrixCodeType: 3x3;'></a-scene>
-```
-##### Example of include the barcode marker
-```html
-<a-marker type='barcode' value='5'></a-marker>
+```javascript
+var markerRoot = arController.createThreeBarcodeMarker(5);
+markerRoot.add(box);
+arScene.scene.add(markerRoot);
 ```
