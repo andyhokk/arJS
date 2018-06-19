@@ -1,4 +1,11 @@
-# arToolKit JS Guite
+# arToolKit JS Guide
+## Used Library
+| Library  | Version |
+| ------------- | ------------- |
+| THREE.OBJLoader2 | 1.3.1  |
+| three.min.js (three.js minified version)  | r93  |
+| artoolkit.min.js (artoolkit.js minified version)  | Unknow Ver.  |
+
 ## Inital the library in .html
 ```html
 <script async src="artoolkit.min.js"></script>
