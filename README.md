@@ -5,6 +5,7 @@
 | THREE.OBJLoader2 | 1.3.1  |
 | three.min.js (three.js minified version)  | r93  |
 | artoolkit.min.js (artoolkit.js minified version)  | Unknow Ver.  |
+| artoolkit.three.js | Unknow Ver. |
 
 ## Inital the library in .html
 ```html
