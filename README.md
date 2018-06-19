@@ -4,8 +4,8 @@
 | ------------- | ------------- |
 | THREE.OBJLoader2 | 1.3.1  |
 | three.min.js (three.js minified version)  | r93  |
-| artoolkit.min.js (artoolkit.js minified version)  | Unknow Ver.  |
-| artoolkit.three.js | Unknow Ver. |
+| artoolkit.min.js (artoolkit.js minified version)  | [7773318  on 3 Feb 2017](https://github.com/artoolkit/jsartoolkit5/blob/77733182a4c519b8e683cbf246a22920d94f3deb/build/artoolkit.min.js)  |
+| artoolkit.three.js | [f17a470  on 3 Jul 2017](https://github.com/artoolkit/jsartoolkit5/blob/f17a470a2c8eb4452c6ed5f0d5ec2c32de96c17f/js/artoolkit.three.js) |
 
 ## Inital the library in .html
 ```html
