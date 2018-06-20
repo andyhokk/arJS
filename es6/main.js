@@ -344,64 +344,42 @@ var createPlane = function (text, x, y, z, width, height) {
 
 function cameraSuccess(videoParams) {
     ARController.getUserMediaThreeScene({
-        //maxARVideoSize: 640,
-        width: { min: 1024, ideal: 1280, max: 1920 },
-        height: { min: 576, ideal: 720, max: 1080 },
+        maxARVideoSize: 640,
+        //width: { min: 1024, ideal: 1280, max: 1920 },
+        //height: { min: 576, ideal: 720, max: 1080 },
         cameraParam: 'Data/camera_para-iPhone 6 Plus rear 1280x720 1.0m.dat',
         deviceId: videoParams.deviceId,
+        facing: 'environment',
         onSuccess: createAR
     })
 }
 
 function createAR(arScene, arController, arCameraParam) {
-    arController.setPatternDetectionMode(artoolkit.AR_MATRIX_CODE_DETECTION);
-
-    document.body.className = arController.orientation;
-
-    var renderer = new THREE.WebGLRenderer({ antialias: true });
-    if (arController.orientation === 'portrait') {
-        var w = (window.innerWidth / arController.videoHeight) * arController.videoWidth;
-        var h = window.innerWidth;
-        renderer.setSize(w, h);
-        renderer.domElement.style.paddingBottom = (w - h) + 'px';
-    } else {
-        if (/Android|mobile|iPad|iPhone/i.test(navigator.userAgent)) {
-            renderer.setSize(window.innerWidth, (window.innerWidth / arController.videoWidth) * arController.videoHeight);
-        } else {
-
-            var aspect = window.innerWidth / window.innerHeight;
-			/*camera.updateProjectionMatrix();
-
-			renderer.setSize(window.innerWidth, window.innerHeight);*/
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            //renderer.setSize(arController.videoWidth, arController.videoHeight);
-            //renderer.setSize(window.innerWidth, (window.innerWidth / arController.videoWidth) * arController.videoHeight);
-            document.body.className += ' desktop';
-        }
-    }
-
-    document.body.insertBefore(renderer.domElement, document.body.firstChild);
+    //console.log(arController.getCameraMatrix());
+    //arController.setPatternDetectionMode(artoolkit.AR_MATRIX_CODE_DETECTION);
+    arController.setPatternDetectionMode(artoolkit.AR_TEMPLATE_MATCHING_MONO_AND_MATRIX);
 
     // Create a couple of lights for our AR scene.
-    var light = new THREE.PointLight(0xffffff);
+    /*var light = new THREE.PointLight(0xffffff);
     light.position.set(40, 40, 40);
+    arScene.scene.add(light);*/
+
+    //var light = new THREE.PointLight(0xff8800);
+    var light = new THREE.PointLight(0xffffff);
+    //light.position.set(-40, -20, -30);
     arScene.scene.add(light);
 
-    var light = new THREE.PointLight(0xff8800);
-    light.position.set(-40, -20, -30);
-    arScene.scene.add(light);
-
-    var box = createBox();
-    var sphere = createShpere();
-    var sphere2 = createShpere();
+    //var box = createBox();
+    //var sphere = createShpere();
+    //var sphere2 = createShpere();
     //var plane = createPlane("I'm a sphere", 1, 1, 1000, 750, 300);
-    var box = createBox();
-    var plane2 = createPlane("I'm a box", -600, 1, 1000, 750, 300);
+    //var box = createBox();
+    //var plane2 = createPlane("I'm a box", -600, 1, 1000, 750, 300);
     //var duck = createDuck();
     //var aeroplane = createAeroplane();
-    plane2.visible = false;
+    //plane2.visible = false;
 
-    sphere2.position.z = 3;
+    //sphere2.position.z = 3;
 
 	/*var overlay = document.getElementById('overlay');
 	overlay.onclick = function () {
@@ -414,16 +392,16 @@ function createAR(arScene, arController, arCameraParam) {
 	});*/
 
 
-    var markerRoot = arController.createThreeBarcodeMarker(5);
+    //var markerRoot = arController.createThreeBarcodeMarker(5);
     //markerRoot.add(box.box);
     //markerRoot.add(sphere);
-    markerRoot.add(box);
+    //markerRoot.add(box);
     //markerRoot.add(sphere2);
     //markerRoot.add(plane);
-    markerRoot.add(plane2);
+    //markerRoot.add(plane2);
     //markerRoot.add(duck);
 
-    arScene.scene.add(markerRoot);
+    //arScene.scene.add(markerRoot);
 
     //markerRoot.add(aeroplane);
 
@@ -439,8 +417,9 @@ function createAR(arScene, arController, arCameraParam) {
     var loader = new THREE.OBJLoader2();
 
     //var model_url = 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/Duck/glTF-Embedded/Duck.gltf';
-    var model_url = './model/male02.obj';
-    //var model_url = './model/all3KidneySamples.obj';
+    //var model_url = './model/male02.obj';
+    var model_url = './model/1kidney_VLP.OBJ';
+    var objLoaded = false;
 
 	/*THREE.DRACOLoader.setDecoderPath('libs');
 	loader.setDRACOLoader(new THREE.DRACOLoader());*/
@@ -452,14 +431,94 @@ function createAR(arScene, arController, arCameraParam) {
                 }
             });*/
             //var duck2 = object.scene;
-            object.rotation.set(-Math.PI / 2, -Math.PI / 2000, Math.PI);
+            //object.rotation.set(-Math.PI / 2, -Math.PI/2000, Math.PI);
+            object.rotation.set((90 * Math.PI) / 180, (20 * Math.PI) / 180, 0);
             object.scale.set(0.03, 0.03, 0.03);
+            object.position.set(-2.5, 6, 0);
             duck.add(object);
+            console.log("Load ready");
+
+            // Wait Until the OBJ model load
+            objLoaded = true;
+            document.getElementById("plainBg").style.opacity = 0;
+            document.getElementById("plainBg").style.visibility = "hidden";
+            document.getElementById("plainBg").style.transition = 'opacity 1s, visibility 1s';
         }
     );
 
-    markerRoot.add(duck);
-    arScene.scene.add(markerRoot);
+    document.body.className = arController.orientation;
+
+    var renderer = new THREE.WebGLRenderer({ antialias: true });
+    var f = Math.min(
+        window.innerWidth / arScene.video.videoWidth,
+        window.innerHeight / arScene.video.videoHeight
+    );
+    var ww = f * arScene.video.videoWidth;
+    var hh = f * arScene.video.videoHeight;
+
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+
+    var type = window.screen.orientation.type;
+    var firstPort = false;
+
+    if (arController.orientation === 'portrait' || type === 'portrait-secondary' || type === 'portrait-primary') {
+        document.getElementById("overlayDetect").style.display = "block";
+        firstPort = true;
+    } else {
+        if (/Android|mobile|iPad|iPhone/i.test(navigator.userAgent)) {
+            renderer.setSize(window.innerWidth, (window.innerWidth / arController.videoWidth) * arController.videoHeight);
+        } else {
+
+            //var aspect = window.innerWidth / window.innerHeight;
+            //camera.updateProjectionMatrix();
+
+            //renderer.setSize(window.innerWidth, window.innerHeight);
+            resize(w, h, arScene, renderer);
+            //renderer.setSize(arController.videoWidth, arController.videoHeight);
+            //renderer.setSize(window.innerWidth, (window.innerWidth / arController.videoWidth) * arController.videoHeight);
+
+            document.body.className += ' desktop';
+        }
+    }
+
+    document.body.insertBefore(renderer.domElement, document.body.firstChild);
+
+    window.addEventListener('resize', function () {
+        if (window.innerHeight > window.innerWidth) {
+            document.getElementById("overlayDetect").style.display = "block";
+        } else if (firstPort === false) {
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+            console.log("height: " + h + " ,wight: " + w)
+            console.log("Video: height: " + arScene.video.videoHeight + " ,wight: " + arScene.video.videoWidth)
+            resize(w, h, arScene, renderer);
+            document.getElementById("overlayDetect").style.display = "none";
+        }
+        //renderer.setSize(arController.videoWidth, arController.videoHeight);
+        //renderer.setSize(window.innerWidth, (window.innerWidth / arController.videoWidth) * arController.videoHeight);
+    })
+
+    window.addEventListener('orientationchange', function () {
+        console.log(window.screen.orientation.type);
+        var type = window.screen.orientation.type;
+        if (type === 'portrait-secondary' || type === 'portrait-primary') {
+            document.getElementById("overlayDetect").style.display = "block";
+            console.log("hihihi");
+        } else if (type === 'landscape-primary' || type === 'landscape-secondary') {
+            document.getElementById("overlayDetect").style.display = "none";
+        }
+    })
+    //markerRoot.add(duck);
+    //arScene.scene.add(markerRoot);
+
+    arController.loadMarker('Data/patt.bigpeeBoyWBlack', function (markerId) {
+        var markerRoot = arController.createThreeMarker(markerId);
+        //markerRoot.add(box);
+        //markerRoot.add(plane2);
+        markerRoot.add(duck);
+        arScene.scene.add(markerRoot);
+    });
 
     //arScene.scene.add(markerRoot);
 
@@ -468,19 +527,6 @@ function createAR(arScene, arController, arCameraParam) {
 
     renderer.domElement.addEventListener('click',
         function (ev) {
-            if (findObjEvt(ev, arScene.camera, sphere, 0)) {
-                //box.box.open = !box.box.open;
-                ev.preventDefault();
-                rotationTarget += 1;
-                plane.visible = !plane.visible;
-            }
-            if (findObjEvt(ev, arScene.camera, box, 0)) {
-                //box.box.open = !box.box.open;
-                //ev.preventDefault();
-                //rotationTarget += 1;
-                //sphere2.position.z += 0.1;
-                plane2.visible = !plane2.visible;
-            }
             if (findObjEvt(ev, arScene.camera, duck, 1)) {
                 //box.box.open = !box.box.open;
                 //ev.preventDefault();
@@ -488,25 +534,36 @@ function createAR(arScene, arController, arCameraParam) {
                 //sphere2.position.z += 0.1;
                 //plane2.visible = !plane2.visible;
                 on();
-                //window.open("https://www.google.com", "_self");
             }
         }, false);
 
     var tick = function () {
         arScene.process();
+        //console.log(arScene);
 
         //box.box.tick();
 
-        rotationV += (rotationTarget - sphere.rotation.z) * 0.05;
-        sphere.rotation.z += rotationV;
+        //rotationV += (rotationTarget - sphere.rotation.z) * 0.05;
+        //sphere.rotation.z += rotationV;
         //torus.rotation.y += rotationV;
-        rotationV *= 0.8;
+        //rotationV *= 0.8;
 
         arScene.renderOn(renderer);
         requestAnimationFrame(tick);
     };
 
     tick();
+}
+
+function resize(w, h, arScene, renderer) {
+    var scaleH = h / arScene.video.videoHeight;
+    var scaleW = w / arScene.video.videoWidth;
+    if (h >= w) {
+        renderer.setSize(arScene.video.videoWidth * scaleH, h);
+    } else if (w >= h) {
+        if (scaleW * arScene.video.videoHeight < h) renderer.setSize(arScene.video.videoWidth * scaleH, h);
+        else renderer.setSize(w, scaleW * arScene.video.videoHeight);
+    }
 }
 
 window.ARThreeOnLoad = function () {
@@ -519,7 +576,6 @@ window.ARThreeOnLoad = function () {
             })
 
             var videoParams = { deviceId: device ? { exact: device.deviceId } : undefined }
-
             cameraSuccess(videoParams);
         })
         .catch(function (err) {
@@ -528,6 +584,10 @@ window.ARThreeOnLoad = function () {
 }
 
 function on() {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+        // Take the user to a different screen here.
+        document.getElementById("overlay").style.width = '100%';
+    }
     //document.querySelector('.overlay').classList.toggle('active');
     // Animation opacity
     document.getElementById("overlay").style.opacity = 1;
@@ -536,12 +596,6 @@ function on() {
     document.getElementById("overlay").style.transition = 'opacity 1s, right 1s';
     // Animation position
     //document.getElementById('#overlay').toggleClass('show');
-}
-
-function off() {
-    document.getElementById("overlay").style.opacity = 0;
-    document.getElementById("overlay").style.right = '-20%';
-    document.getElementById("overlay").style.transition = 'opacity 1s, right 1s';
 }
 
 /*window.ARThreeOnLoad = function () {

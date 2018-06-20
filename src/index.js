@@ -353,7 +353,7 @@ function cameraSuccess(videoParams) {
 }
 
 function createAR(arScene, arController, arCameraParam) {
-	arController.setPatternDetectionMode(artoolkit.AR_MATRIX_CODE_DETECTION);
+	//arController.setPatternDetectionMode(artoolkit.AR_MATRIX_CODE_DETECTION);
 
 	document.body.className = arController.orientation;
 
@@ -438,6 +438,7 @@ function createAR(arScene, arController, arCameraParam) {
 		renderer.setSize(window.innerWidth, window.innerHeight);
 	});*/
 
+	/*arController.setPatternDetectionMode(artoolkit.AR_MATRIX_CODE_DETECTION);
 
 	var markerRoot = arController.createThreeBarcodeMarker(5);
 	//markerRoot.add(box.box);
@@ -448,7 +449,7 @@ function createAR(arScene, arController, arCameraParam) {
 	markerRoot.add(plane2);
 	markerRoot.add(duck);
 
-	arScene.scene.add(markerRoot);
+	arScene.scene.add(markerRoot);*/
 
 	//markerRoot.add(aeroplane);
 
@@ -472,6 +473,13 @@ function createAR(arScene, arController, arCameraParam) {
 		var duck2 = gltf.scene;
 		duck2.rotation.set(-Math.PI / 2, -Math.PI / 2000, Math.PI);
 		duck.add(duck2);
+	});
+
+	arController.loadMarker('Data/peeBoy.patt', function (markerId) {
+		var markerRoot = arController.createThreeMarker(markerId);
+		markerRoot.add(box);
+		markerRoot.add(plane2);
+		arScene.scene.add(markerRoot);
 	});
 
 	markerRoot.add(duck);
