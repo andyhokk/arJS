@@ -4,8 +4,8 @@
 | ------------- | ------------- |
 | THREE.OBJLoader2 | [1.3.1](https://github.com/mrdoob/three.js/blob/67f24d0d2dc72b375c1eddc2aa05c2624da71ab0/examples/js/loaders/OBJLoader2.js)  |
 | three.min.js (three.js minified version)  | [r93](https://github.com/mrdoob/three.js/blob/1300607b1471fd7148cf35169c3eaaa15b44a9d0/build/three.min.js)  |
-| artoolkit.min.js (artoolkit.js minified version)  | [7773318  on 3 Feb 2017](https://github.com/artoolkit/jsartoolkit5/blob/77733182a4c519b8e683cbf246a22920d94f3deb/build/artoolkit.min.js)  |
-| artoolkit.three.js | [f17a470  on 3 Jul 2017](https://github.com/artoolkit/jsartoolkit5/blob/f17a470a2c8eb4452c6ed5f0d5ec2c32de96c17f/js/artoolkit.three.js) |
+| artoolkit.min.js (artoolkit.js minified version)  | [ea819f1  on 29 Jan](https://github.com/artoolkitx/jsartoolkit5/blob/ea819f11566f02eb10fc4d2abd8ce531983c06e2/build/artoolkit.min.js)  |
+| artoolkit.three.js | [afd2765 on 16 Jan](https://github.com/artoolkitx/jsartoolkit5/blob/afd27655c3c3868fc79d579aa2e0898b2981e191/js/artoolkit.three.js) |
 
 ## Inital the library in .html
 ```html
