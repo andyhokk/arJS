@@ -345,8 +345,8 @@ var createPlane = function (text, x, y, z, width, height) {
 function cameraSuccess(videoParams) {
     ARController.getUserMediaThreeScene({
         maxARVideoSize: 640,
-        //width: { min: 1024, ideal: 1280, max: 1920 },
-        //height: { min: 576, ideal: 720, max: 1080 },
+        //width: { max: 640 },
+        //height: { max: 480 },
         cameraParam: 'Data/camera_para-iPhone 6 Plus rear 1280x720 1.0m.dat',
         deviceId: videoParams.deviceId,
         facing: 'environment',
@@ -448,7 +448,9 @@ function createAR(arScene, arController, arCameraParam) {
 
     document.body.className = arController.orientation;
 
-    var renderer = new THREE.WebGLRenderer({ antialias: true });
+    var renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: 'low-power' });
+    renderer.autoClear = true;
+
     var f = Math.min(
         window.innerWidth / arScene.video.videoWidth,
         window.innerHeight / arScene.video.videoHeight
@@ -462,7 +464,7 @@ function createAR(arScene, arController, arCameraParam) {
     var type = window.screen.orientation.type;
     var firstPort = false;
 
-    if (arController.orientation === 'portrait' || type === 'portrait-secondary' || type === 'portrait-primary') {
+    if (window.innerHeight > window.innerWidth || arController.orientation === 'portrait' || type === 'portrait-secondary' || type === 'portrait-primary') {
         document.getElementById("overlayDetect").style.display = "block";
         firstPort = true;
     } else {
@@ -487,11 +489,13 @@ function createAR(arScene, arController, arCameraParam) {
     window.addEventListener('resize', function () {
         if (window.innerHeight > window.innerWidth) {
             document.getElementById("overlayDetect").style.display = "block";
-        } else if (firstPort === false) {
+        }else if(firstPort === true){
+            location.reload();
+        }else if (firstPort === false) {
             var w = window.innerWidth;
             var h = window.innerHeight;
-            console.log("height: " + h + " ,wight: " + w)
-            console.log("Video: height: " + arScene.video.videoHeight + " ,wight: " + arScene.video.videoWidth)
+            //console.log("height: " + h + " ,wight: " + w)
+            //console.log("Video: height: " + arScene.video.videoHeight + " ,wight: " + arScene.video.videoWidth)
             resize(w, h, arScene, renderer);
             document.getElementById("overlayDetect").style.display = "none";
         }
@@ -547,7 +551,7 @@ function createAR(arScene, arController, arCameraParam) {
         //sphere.rotation.z += rotationV;
         //torus.rotation.y += rotationV;
         //rotationV *= 0.8;
-
+        // Render the scene.
         arScene.renderOn(renderer);
         requestAnimationFrame(tick);
     };
