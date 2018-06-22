@@ -55,3 +55,34 @@ var intersects = raycaster.intersectObject(objects);
 ```javascript
 var intersects = raycaster.intersectObjects(objects.children, true);
 ```
+
+## Manager (Get the status of the loaded model)
+```javascript
+var manager = new THREE.LoadingManager();
+    manager.onProgress = function (item, loaded, total) {
+        console.log(item, loaded, total);
+    };
+```
+
+## OBJ Loader 2 (Load the .obj model)
+```javascript
+var loader = new THREE.OBJLoader2(manager);
+loader.load(model_url, function (object) {
+	// Get the sub-class of the obj model
+	object.traverse(function (child) {
+		if (child instanceof THREE.Mesh) {
+			console.log(child);
+		}
+        });
+}, onProgress, onError);
+
+//Callback function
+var onProgress = function (xhr) {
+	if (xhr.lengthComputable) {
+		var percentComplete = xhr.loaded / xhr.total * 100;
+		console.log(Math.round(percentComplete, 2) + '% downloaded');
+        }
+};
+
+var onError = function (xhr) { };
+```
