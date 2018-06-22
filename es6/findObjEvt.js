@@ -1,4 +1,5 @@
-/*  File Name: findObjEvt.js
+/*  
+    File Name: findObjEvt.js
 
     This function is use to find the intersection of the AR object.
     For objType == 0, is Single object
@@ -52,7 +53,7 @@ export function findObjEvt(event, camera, objects, objType) {
         -(vec.y / height) * 2 + 1,
         0.5
     );
-    
+
     mouse3D.unproject(camera);
     mouse3D.sub(camera.position);
     mouse3D.normalize();
@@ -61,10 +62,12 @@ export function findObjEvt(event, camera, objects, objType) {
 
     if (objType == 0) {
         var intersects = raycaster.intersectObject(objects);
-        console.log(objects);
     } else if (objType == 1) {
         var intersects = raycaster.intersectObjects(objects.children, true);
-        console.log(objects);
+        /*for (var i = 0; i < intersects.length; i++) {
+            //console.log(intersects[i]);
+            //intersects[i].object.material.color.set(Math.random() * 0xffffff);
+        }*/
     }
 
     if (intersects.length > 0) {
