@@ -86,3 +86,10 @@ var onProgress = function (xhr) {
 
 var onError = function (xhr) { };
 ```
+## WebGL Renderer
+```javascript
+var renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: 'low-power' });
+renderer.autoClear = true;
+renderer.setPixelRatio(window.devicePixelRatio);
+```
+** set the antialias be *true* will increase the GPU usage almost be 90-100% in 1920x1080 render, set *false* will be 40-50% in 1920x1080 render
