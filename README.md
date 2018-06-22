@@ -28,7 +28,7 @@ var createShpere = function () {
 	return sphere;
 }
 ```
-## QR Code
+## QR Marker
 ### Add a pattern 5 QR Code
 ```javascript
 arController.setPatternDetectionMode(artoolkit.AR_MATRIX_CODE_DETECTION);
@@ -54,24 +54,4 @@ var intersects = raycaster.intersectObject(objects);
 ### For mult. object, use intersectObjects(objects)
 ```javascript
 var intersects = raycaster.intersectObjects(objects.children, true);
-```
-
-### Custom Marker
-#### Image marker
-```html
-<a-marker preset='custom' type='pattern' url='your-marker.patt'>
-  <!-- the object or 3D model after recongzine the QR-Marker-->
-  <a-box position='0 0.5 0' material='color: black;'></a-box>
-</a-marker-camera>
-```
-[Online marker generate tool](https://jeromeetienne.github.io/AR.js/three.js/examples/marker-training/examples/generator.html)
-
-#### Barcode Marker
-##### Edit the Scene Config before use the Barcode Marker
-```html
-<a-scene arjs='detectionMode: mono_and_matrix; matrixCodeType: 3x3;'></a-scene>
-```
-##### Example of include the barcode marker
-```html
-<a-marker type='barcode' value='5'></a-marker>
 ```
