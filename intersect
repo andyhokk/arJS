@@ -1,0 +1,191 @@
+var camera, scene, renderer, mixer;
+var clock = new THREE.Clock();
+
+var params = {
+    clipIntersection: true,
+    planeConstant: 0,
+    showHelpers: false
+};
+
+clipPlanes = [
+    new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), 12),
+    new THREE.Plane( new THREE.Vector3( - 1, 0, 0 ), -9),
+    //new THREE.Plane( new THREE.Vector3( 0, -1, 0 ), 12)
+];
+
+init();
+animate();
+
+function init() {
+    
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.localClippingEnabled = true;
+    document.body.appendChild( renderer.domElement );
+    
+    scene = new THREE.Scene();
+    
+    camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 200 );
+    
+    camera.position.set( - 20, 30, 40 );
+    
+    var controls = new THREE.OrbitControls( camera, renderer.domElement );
+    controls.addEventListener( 'charge', animate );
+    controls.minDistance = 10;
+    controls.maxDistance = 100;
+    controls.enablePan = false;
+    
+    var light = new THREE.HemisphereLight( 0xffffff, 0x080808, 1);
+    scene.add( light );
+    
+    scene.add( new THREE.AmbientLight( 0x505050 ) );
+    
+    var loader = new THREE.OBJLoader2();
+    loader.load("1kidney_VLP.OBJ", function (object) {
+        object.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+                child.geometry.center();
+                console.log(child);
+                console.log(child.material);
+                child.material.clippingPlanes = clipPlanes;
+                //child.material.clipIntersection = params.clipIntersection;
+             
+            }
+        });
+
+        // Degree: (degree*Math.PI) / 180
+        object.rotation.set((90 * Math.PI) / 180, (20 * Math.PI) / 180, 0);
+
+        // Kidney Offical
+        object.scale.set(0.5, 0.5, 0.5);
+        //object.position.set(0, 0, 0);
+        scene.add(object);
+    });
+    
+    /*var group = new THREE.Group();
+    
+    for ( var i = 1; i < 25; i ++ ) {
+        
+        var geometry = new THREE.SphereBufferGeometry( i / 2, 48, 24 );
+        
+        if ( i < 20 ){
+            var material = new THREE.MeshLambertMaterial( {
+            
+            color: new THREE.Color( Math.sin( i * 0.5 ) * 0.5 + 0.5, Math.sin( i * 1.5 ) * 0.5 + 0.5, Math.sin( i * 4.5 ) * 0.5 + 0.5 ),
+            side: THREE.DoubleSide,
+            
+            } );
+        } else {
+            var material = new THREE.MeshLambertMaterial( {
+            
+            color: new THREE.Color( Math.sin( i * 0.5 ) * 0.5 + 0.5, Math.sin( i * 1.5 ) * 0.5 + 0.5, Math.sin( i * 4.5 ) * 0.5 + 0.5 ),
+            side: THREE.DoubleSide,
+            clippingPlanes: clipPlanes,
+            clipIntersection: params.clipIntersection
+            
+            } );
+        }
+        
+        group.add( new THREE.Mesh( geometry, material ) );
+        
+    }
+    
+    scene.add( group );*/
+    
+    var helpers = new THREE.Group();
+    //helpers.add( new THREE.AxesHelper( 20 ) );
+    helpers.add( new THREE.PlaneHelper( clipPlanes[ 0 ], 30, 0xff0000 ) );
+    helpers.add( new THREE.PlaneHelper( clipPlanes[ 1 ], 30, 0x00ff00 ) );
+    //helpers.add( new THREE.PlaneHelper( clipPlanes[ 2 ], 30, 0x0000ff ) );
+    //helpers.visible = false;
+    scene.add( helpers );
+    
+    var gui = new dat.GUI();
+    
+    gui.add( params, 'clipIntersection' ).name('clip intersection' ).onChange( function ( value ) {
+        
+        var childern = group.children;
+        
+        for ( var i = 0; i < childern.length; i ++ ) {
+            
+            childern[ i ].material.clipIntersection = value;
+            
+        }
+        
+    } );
+    
+    gui.add( params, 'planeConstant', -16, 16).step( 1 ).name( 'plane constant' ).onChange( function ( value ) {
+       
+        for ( var j = 0; j < clipPlanes.length; j ++ ){
+            
+            clipPlanes[ j ].constant = value;
+            
+        }
+        
+    } );
+    
+    gui.add( params, 'showHelpers' ).name( 'show helpers' ).onChange( function ( value ) {
+        
+        helpers.visible = value;
+        
+        
+    } );
+    timeArray = [0,5];
+    var planeNumberKeyframe = new THREE.NumberKeyframeTrack( '.constant', timeArray, [0,10] );
+    clip = new THREE.AnimationClip( 'Actions', 6, [planeNumberKeyframe]);
+    mixer = new THREE.AnimationMixer( clipPlanes[0]);
+    console.log(clipPlanes[0]);
+    clipActions = mixer.clipAction( clip );
+    clipActions.play();
+    
+    window.addEventListener( 'resize', onWindowResize, false);
+    
+}
+
+function planeAnimate() {
+    
+    clipPlanes[0].constant -= 0.1;
+    if (clipPlanes[0].constant < -9 ){
+        clipPlanes[0].constant = 12;
+    }
+    clipPlanes[1].constant += 0.1;
+    if (clipPlanes[1].constant > 12 ){
+        clipPlanes[1].constant = - 9;
+    }
+    /*clipPlanes[2].constant -= 0.1;
+    if (clipPlanes[2].constant < - 9 ){
+        clipPlanes[2].constant = 12;
+    }*/
+    
+}
+
+function onWindowResize() {
+    
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    
+}
+
+function animate() {
+    
+    requestAnimationFrame( animate );
+    //planeAnimate();
+    //render();
+    renderer.render( scene, camera );
+    
+}   
+
+function render() {
+    
+    var delta = clock.getDelta();
+    console.log(delta);
+    console.log(mixer);
+    if ( mixer ) {
+        mixer.update( delta );
+    }
+    renderer.render( scene, camera );
+    
+} 
