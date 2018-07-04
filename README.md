@@ -85,7 +85,7 @@ if (this.orientation === 'portrait') {
 }
 ```
 
-## Creacte Object
+## Create Object
 ### Shpere
 ```javascript
 var createShpere = function () {
