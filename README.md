@@ -1,4 +1,4 @@
-# arToolKit JR Guite
+# arToolKit JR Guitee
 ## Inital the library in .html
 ```html
 <script async src="artoolkit.min.js"></script>
