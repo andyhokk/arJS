@@ -1,4 +1,4 @@
-# arToolKit JR Guite
+# arToolKit JR Guide
 [Live Demo](https://andyhokk.github.io/arJS/dist)
 
 ## Used Library
