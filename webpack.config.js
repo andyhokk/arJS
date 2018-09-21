@@ -14,9 +14,12 @@ module.exports = {
 }*/
 const path = require('path');
 module.exports = {
-  entry: "./es6/main.js",
+  entry: {
+    main: "./es6/main.js",
+    main_vessel: "./es6/main_vessel.js"
+  },
   output: {
-    filename: "bundle.js",
+    filename: "[name]-bundle.js",
     path: path.resolve(__dirname, 'dist')
   },
   devServer: {
